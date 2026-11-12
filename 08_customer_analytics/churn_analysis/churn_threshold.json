@@ -1,0 +1,16 @@
+{
+  "threshold_days": 278,
+  "n_gaps": 3107,
+  "n_gaps_ge_1d": 2188,
+  "share_same_day_gaps": 0.29578371419375604,
+  "gap_quantiles": {
+    "p25": 23.14504340277778,
+    "p50": 70.98138310185186,
+    "p75": 169.47485821759258,
+    "p80": 196.05181481481483,
+    "p90": 277.737292824074,
+    "p95": 339.8096886574075
+  },
+  "rule": "P90 of inter-purchase gaps >= 1 day among repeat customers",
+  "caveat": "gaps are right-censored by the 20-month window, so long gaps are under-observed; T is therefore a lower bound of the true purchase cycle"
+}

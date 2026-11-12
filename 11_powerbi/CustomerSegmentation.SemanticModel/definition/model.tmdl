@@ -1,0 +1,30 @@
+model Model
+	culture: id-ID
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["PgServer", "PgDatabase", "dim_customer", "dim_location", "dim_product", "dim_date", "dim_payment_method", "fact_sales", "fact_orders", "segment_profile", "segment_migration", "period_retention", "cohort_retention", "product_affinity", "kpi_monthly", "kpi_dictionary", "model_comparison", "category_by_segment", "revenue_pareto", "meta"]
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+ref table dim_customer
+ref table dim_location
+ref table dim_product
+ref table dim_date
+ref table dim_payment_method
+ref table fact_sales
+ref table fact_orders
+ref table segment_profile
+ref table segment_migration
+ref table period_retention
+ref table cohort_retention
+ref table product_affinity
+ref table kpi_monthly
+ref table kpi_dictionary
+ref table model_comparison
+ref table category_by_segment
+ref table revenue_pareto
+ref table meta

@@ -1,0 +1,38 @@
+table segment_migration
+	lineageTag: f7b59826-7bb0-5449-a31b-2620299ee587
+
+	column segment_prev
+		dataType: string
+		lineageTag: 0f452acc-d4c1-583e-89fc-399828cf2027
+		summarizeBy: none
+		sourceColumn: segment_prev
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment_now
+		dataType: string
+		lineageTag: 2ab512de-5b56-5bd8-9908-fe4e8ae75b20
+		summarizeBy: none
+		sourceColumn: segment_now
+
+		annotation SummarizationSetBy = Automatic
+
+	column customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: cfb92108-19da-5b9f-9e22-a3b2c3735882
+		summarizeBy: sum
+		sourceColumn: customers
+
+		annotation SummarizationSetBy = Automatic
+
+	partition segment_migration = m
+		mode: directQuery
+		source =
+				let
+				    Source = PostgreSQL.Database(PgServer, PgDatabase),
+				    Data = Source{[Schema="pbi",Item="segment_migration"]}[Data]
+				in
+				    Data
+
+	annotation PBI_ResultType = Table

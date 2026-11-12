@@ -1,0 +1,216 @@
+table model_comparison
+	lineageTag: e8d32a5b-86cc-5b79-888b-e66ef191a9d4
+
+	column run_id
+		dataType: string
+		lineageTag: 837f140e-043e-5e71-9fd7-22b1591a123c
+		summarizeBy: none
+		sourceColumn: run_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column experiment
+		dataType: string
+		lineageTag: c4c085a8-d5d6-58e0-b2e2-29ab83763e91
+		summarizeBy: none
+		sourceColumn: experiment
+
+		annotation SummarizationSetBy = Automatic
+
+	column space
+		dataType: string
+		lineageTag: 8c7ceb45-629f-5eab-97cb-8cff6977632f
+		summarizeBy: none
+		sourceColumn: space
+
+		annotation SummarizationSetBy = Automatic
+
+	column algorithm
+		dataType: string
+		lineageTag: 555d93dc-123b-5e40-87be-52f64fe977c9
+		summarizeBy: none
+		sourceColumn: algorithm
+
+		annotation SummarizationSetBy = Automatic
+
+	column k
+		dataType: int64
+		formatString: #,0
+		lineageTag: a210ca14-6b51-5490-bf35-d801574226a7
+		summarizeBy: sum
+		sourceColumn: k
+
+		annotation SummarizationSetBy = Automatic
+
+	column own_silhouette
+		dataType: double
+		formatString: #,0.00
+		lineageTag: f3d4c2da-b645-52d4-9c7d-e8b44b5b92be
+		summarizeBy: sum
+		sourceColumn: own_silhouette
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'silhouette@rfm-original-standard'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 2d645d7f-a475-5e60-b681-108a22928f6f
+		summarizeBy: sum
+		sourceColumn: silhouette@rfm-original-standard
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'silhouette@rfm-original-robust'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: d6d90509-d8d8-59ce-97c3-9967a3275e2c
+		summarizeBy: sum
+		sourceColumn: silhouette@rfm-original-robust
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'silhouette@rfm-log-standard'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 82ebddf3-eebe-54e2-91ea-a1886bbd616f
+		summarizeBy: sum
+		sourceColumn: silhouette@rfm-log-standard
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'silhouette@rfm-log-robust'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 759e942e-d3cf-56f2-911a-51f114b86674
+		summarizeBy: sum
+		sourceColumn: silhouette@rfm-log-robust
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'silhouette@beh-value-lifecycle'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: d7f70e08-e951-537d-bbc0-c9469aca74b8
+		summarizeBy: sum
+		sourceColumn: silhouette@beh-value-lifecycle
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'silhouette@beh-value-experience'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: d7c0a66b-3194-5302-989c-5c8a0c0ef2c3
+		summarizeBy: sum
+		sourceColumn: silhouette@beh-value-experience
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'silhouette@beh-full-pool'
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 157de3a0-3b60-5cdb-827c-9602f15cec96
+		summarizeBy: sum
+		sourceColumn: silhouette@beh-full-pool
+
+		annotation SummarizationSetBy = Automatic
+
+	column silhouette
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 304ff571-1ab5-5750-adb0-537e2319e5e5
+		summarizeBy: sum
+		sourceColumn: silhouette
+
+		annotation SummarizationSetBy = Automatic
+
+	column davies_bouldin
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 127d938d-5671-5c31-af53-3d90bc0254ea
+		summarizeBy: sum
+		sourceColumn: davies_bouldin
+
+		annotation SummarizationSetBy = Automatic
+
+	column calinski_harabasz
+		dataType: double
+		formatString: #,0.00
+		lineageTag: b67e1a0d-fd20-5adb-a3fe-d80167e11071
+		summarizeBy: sum
+		sourceColumn: calinski_harabasz
+
+		annotation SummarizationSetBy = Automatic
+
+	column stability_bootstrap_ari
+		dataType: double
+		formatString: #,0.00
+		lineageTag: f251b366-ed58-5612-a9c3-857f1bd41079
+		summarizeBy: sum
+		sourceColumn: stability_bootstrap_ari
+
+		annotation SummarizationSetBy = Automatic
+
+	column stability_seed_ari
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 861ad233-3f07-5150-954c-2de8f50f01d9
+		summarizeBy: sum
+		sourceColumn: stability_seed_ari
+
+		annotation SummarizationSetBy = Automatic
+
+	column size_entropy
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 0df3bfb0-e4d4-5425-bd34-5db35f859a2e
+		summarizeBy: sum
+		sourceColumn: size_entropy
+
+		annotation SummarizationSetBy = Automatic
+
+	column min_cluster_share
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 101972d3-1ecb-5ae8-9c5c-969e3b14c9d1
+		summarizeBy: sum
+		sourceColumn: min_cluster_share
+
+		annotation SummarizationSetBy = Automatic
+
+	column interpretability
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 026e8f47-5b70-517d-ba5a-d41af7b31b66
+		summarizeBy: sum
+		sourceColumn: interpretability
+
+		annotation SummarizationSetBy = Automatic
+
+	column composite
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 4ff8eeb6-ff96-582e-b5c2-e99b93cba956
+		summarizeBy: sum
+		sourceColumn: composite
+
+		annotation SummarizationSetBy = Automatic
+
+	column rank
+		dataType: int64
+		formatString: #,0
+		lineageTag: 2aab7287-3359-5852-bb9a-c44054af89a9
+		summarizeBy: sum
+		sourceColumn: rank
+
+		annotation SummarizationSetBy = Automatic
+
+	partition model_comparison = m
+		mode: directQuery
+		source =
+				let
+				    Source = PostgreSQL.Database(PgServer, PgDatabase),
+				    Data = Source{[Schema="pbi",Item="model_comparison"]}[Data]
+				in
+				    Data
+
+	annotation PBI_ResultType = Table

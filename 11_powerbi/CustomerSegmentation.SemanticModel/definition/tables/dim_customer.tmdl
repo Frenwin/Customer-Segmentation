@@ -1,0 +1,460 @@
+table dim_customer
+	lineageTag: 1935d875-caf2-5b97-ac8b-eec40564da00
+
+	measure 'Customers (Snapshot)' = COUNTROWS('dim_customer')
+		formatString: #,0
+		lineageTag: 1b6a7159-b18e-5133-b8a5-77af42ba8bf6
+
+	measure 'Active Customers' = CALCULATE(COUNTROWS('dim_customer'), 'dim_customer'[is_churned] = 0)
+		formatString: #,0
+		lineageTag: c407aca4-b6a9-5b2a-99a1-ef526c11116f
+
+	measure 'Churned Customers' = CALCULATE(COUNTROWS('dim_customer'), 'dim_customer'[is_churned] = 1)
+		formatString: #,0
+		lineageTag: 0c24ed45-02a8-5651-8394-00ed19a68d5e
+
+	measure 'Churn Rate (Inactivity)' = DIVIDE(COALESCE([Churned Customers], 0), [Customers (Snapshot)])
+		formatString: 0.0%
+		lineageTag: 38331393-df65-5141-8b5d-085ef922d346
+
+	measure 'Active Customer Rate' = DIVIDE([Active Customers], [Customers (Snapshot)])
+		formatString: 0.0%
+		lineageTag: e2dad185-24c8-53c1-9474-0ef784f0afa7
+
+	measure 'Repeat Purchase Rate' = DIVIDE(SUM('dim_customer'[is_repeat]), [Customers (Snapshot)])
+		formatString: 0.00%
+		lineageTag: 9e243bef-46c5-5c60-b7fb-4202c2574c7d
+
+	measure 'Historical CLV' = AVERAGE('dim_customer'[historical_clv])
+		formatString: "Rp" #,0
+		lineageTag: 90478d40-a77a-5c4e-a0ab-c5d69eee883a
+
+	measure 'Predicted CLV 12m' = AVERAGE('dim_customer'[predicted_clv_12m])
+		formatString: "Rp" #,0
+		lineageTag: 174d3d52-3198-5f65-a539-87a769cb898c
+
+	measure 'Historical CLV (Rp ribu)' = DIVIDE([Historical CLV], 1e3)
+		formatString: 0
+		lineageTag: a7fcc8b9-c519-5bda-a136-198837b78f1c
+
+	measure 'Average Recency (days)' = AVERAGE('dim_customer'[recency_days])
+		formatString: #,0
+		lineageTag: ad26284c-b288-5673-b1d4-c5c4822c217a
+
+	measure 'Average Purchase Interval' = AVERAGE('dim_customer'[avg_purchase_interval_days])
+		formatString: #,0 "days"
+		lineageTag: b829de7c-bb65-5729-9400-e3f0c28ccc85
+
+	measure 'Segment Color' = SELECTEDVALUE('dim_customer'[segment_color], "#C5CAD6")
+		lineageTag: 9f09b77b-a59d-57f4-8221-1a987f2214c1
+
+	measure 'High-Value At-Risk Revenue' = CALCULATE(SUM('dim_customer'[monetary]), 'dim_customer'[is_high_value_at_risk] = 1)
+		formatString: "Rp" #,0
+		lineageTag: 152f121b-12f6-5268-a0ef-a8d5502cc01f
+
+	measure 'High-Value At-Risk Customers' = CALCULATE(COUNTROWS('dim_customer'), 'dim_customer'[is_high_value_at_risk] = 1)
+		formatString: #,0
+		lineageTag: 63063179-aef2-55ed-803d-bf14ba037ff0
+
+	measure 'High-Potential CLV' = CALCULATE(SUM('dim_customer'[predicted_clv_12m]), 'dim_customer'[is_high_potential] = 1)
+		formatString: "Rp" #,0
+		lineageTag: f1f9a3e7-9761-5a12-a3e1-d8a67c19efba
+
+	measure 'High-Potential Customers' = CALCULATE(COUNTROWS('dim_customer'), 'dim_customer'[is_high_potential] = 1)
+		formatString: #,0
+		lineageTag: c57268dd-06bc-58d2-ba5c-04d3608032d6
+
+	measure 'Active Customers (label)' = VAR v = [Active Customers] RETURN IF(ISBLANK(v), "–", FORMAT(v, "#,0"))
+		lineageTag: 1a02fdf8-c896-58a8-8579-8d7803e03e4c
+
+	measure 'Repeat Purchase Rate (label)' = VAR v = [Repeat Purchase Rate] RETURN IF(ISBLANK(v), "–", FORMAT(v, "0.00%"))
+		lineageTag: 1b4eca8f-c081-5872-b8d7-893f91d4322a
+
+	measure 'Customers (Snapshot) (label)' = VAR v = [Customers (Snapshot)] RETURN IF(ISBLANK(v), "–", FORMAT(v, "#,0"))
+		lineageTag: ee549b13-423a-5b3d-8d4d-be9a81df883e
+
+	measure 'Average Recency (days) (label)' = VAR v = [Average Recency (days)] RETURN IF(ISBLANK(v), "–", FORMAT(v, "#,0"))
+		lineageTag: ad6393ec-cb8e-5382-b960-8b4dbbb0638f
+
+	measure 'Historical CLV (label)' = VAR v = [Historical CLV] RETURN IF(ISBLANK(v), "–", SWITCH(TRUE(), v >= 1e9, "Rp " & FORMAT(v / 1e9, "#,0.0") & " miliar", v >= 1e7, "Rp " & FORMAT(v / 1e6, "#,0.0") & " juta", "Rp " & FORMAT(v, "#,0")))
+		lineageTag: bb99cf1d-962b-5602-81f0-d77fcefe2413
+
+	measure 'Predicted CLV 12m (label)' = VAR v = [Predicted CLV 12m] RETURN IF(ISBLANK(v), "–", SWITCH(TRUE(), v >= 1e9, "Rp " & FORMAT(v / 1e9, "#,0.0") & " miliar", v >= 1e7, "Rp " & FORMAT(v / 1e6, "#,0.0") & " juta", "Rp " & FORMAT(v, "#,0")))
+		lineageTag: 3a47afb9-409d-57f1-8d38-84f03be29bae
+
+	measure 'Churn Rate (Inactivity) (label)' = VAR v = [Churn Rate (Inactivity)] RETURN IF(ISBLANK(v), "–", FORMAT(v, "0.0%"))
+		lineageTag: eba1f183-3129-535c-af4f-d80966ebbf59
+
+	measure 'Average Purchase Interval (label)' = VAR v = [Average Purchase Interval] RETURN IF(ISBLANK(v), "–", FORMAT(v, "#,0") & " hari")
+		lineageTag: c12a638d-c8ce-5e7b-9bfc-76cbfeec16e0
+
+	measure 'High-Value At-Risk Customers (label)' = VAR v = [High-Value At-Risk Customers] RETURN IF(ISBLANK(v), "–", FORMAT(v, "#,0"))
+		lineageTag: 0fe32491-f30c-5408-9108-966689b13598
+
+	measure 'High-Value At-Risk Revenue (label)' = VAR v = [High-Value At-Risk Revenue] RETURN IF(ISBLANK(v), "–", SWITCH(TRUE(), v >= 1e9, "Rp " & FORMAT(v / 1e9, "#,0.0") & " miliar", v >= 1e7, "Rp " & FORMAT(v / 1e6, "#,0.0") & " juta", "Rp " & FORMAT(v, "#,0")))
+		lineageTag: ec207d2e-4908-5e70-b92c-4a5ba47ff0ef
+
+	measure 'High-Potential Customers (label)' = VAR v = [High-Potential Customers] RETURN IF(ISBLANK(v), "–", FORMAT(v, "#,0"))
+		lineageTag: 047d99ce-d7bc-5c27-92db-e8cc09370200
+
+	measure 'High-Potential CLV (label)' = VAR v = [High-Potential CLV] RETURN IF(ISBLANK(v), "–", SWITCH(TRUE(), v >= 1e9, "Rp " & FORMAT(v / 1e9, "#,0.0") & " miliar", v >= 1e7, "Rp " & FORMAT(v / 1e6, "#,0.0") & " juta", "Rp " & FORMAT(v, "#,0")))
+		lineageTag: 2a3db7a0-91a8-5862-bcb5-3affb00d6c8d
+
+	column customer_key
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: 141aa9ee-eb39-5741-bd37-b4d4a7983e82
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_code
+		dataType: string
+		lineageTag: 3b77bf19-0463-586d-a8d6-3ca14d2492f8
+		summarizeBy: none
+		sourceColumn: customer_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column location_key
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: b23d2843-62d4-53cb-a26c-7bd6b6a4db7a
+		summarizeBy: none
+		sourceColumn: location_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column acquisition_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: b6262bcb-76b9-5c7d-ab94-1e8fd5d9b16e
+		summarizeBy: none
+		sourceColumn: acquisition_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column cohort_month
+		dataType: dateTime
+		formatString: mmm yy
+		lineageTag: aba2f4ff-fdea-54cd-be7b-1259d2a399a1
+		summarizeBy: none
+		sourceColumn: cohort_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column cohort
+		dataType: string
+		lineageTag: 74871cbd-04c3-561b-929a-622f7625028b
+		summarizeBy: none
+		sourceColumn: cohort
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment_id
+		dataType: string
+		lineageTag: b13f6d04-c50a-53ed-b9d5-5ab7d563787b
+		summarizeBy: none
+		sourceColumn: segment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment_name
+		dataType: string
+		sortByColumn: segment_id
+		lineageTag: bddfa43c-b5cf-56ee-a9f9-f2cc289b30f0
+		summarizeBy: none
+		sourceColumn: segment_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment_color
+		dataType: string
+		isHidden
+		lineageTag: cb43a46e-c7ef-5de5-a6e6-a3f974675359
+		summarizeBy: none
+		sourceColumn: segment_color
+
+		annotation SummarizationSetBy = Automatic
+
+	column rfm_segment
+		dataType: string
+		lineageTag: d3dfbd64-6522-56c3-9952-8c471cde811e
+		summarizeBy: none
+		sourceColumn: rfm_segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column r_score
+		dataType: int64
+		formatString: #,0
+		lineageTag: 79e94021-49aa-55e9-83bd-3789ac7c7057
+		summarizeBy: none
+		sourceColumn: r_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column f_score
+		dataType: int64
+		formatString: #,0
+		lineageTag: 7a9bab41-1007-59cf-895e-9bbbd34b37b5
+		summarizeBy: none
+		sourceColumn: f_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column m_score
+		dataType: int64
+		formatString: #,0
+		lineageTag: 2f6fbad8-2d6c-5035-a53e-458c6d0cb21b
+		summarizeBy: none
+		sourceColumn: m_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column rfm_cell
+		dataType: string
+		lineageTag: 6429273a-32b8-5ee1-b4bd-4dbe2627fe2e
+		summarizeBy: none
+		sourceColumn: rfm_cell
+
+		annotation SummarizationSetBy = Automatic
+
+	column rfm_score
+		dataType: int64
+		formatString: #,0
+		lineageTag: 5f833e80-a873-548c-ad54-bb01c19e56a4
+		summarizeBy: none
+		sourceColumn: rfm_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column churn_status
+		dataType: string
+		lineageTag: 274f0ace-45c2-5f37-bf91-3f2f3da4071c
+		summarizeBy: none
+		sourceColumn: churn_status
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_churned
+		dataType: int64
+		formatString: #,0
+		lineageTag: 8d2aed84-bf05-54d8-9792-b9ca15542cc0
+		summarizeBy: sum
+		sourceColumn: is_churned
+
+		annotation SummarizationSetBy = Automatic
+
+	column recency_days
+		dataType: int64
+		formatString: #,0
+		lineageTag: 6a9f1ed2-9b0c-58ca-9826-2982dfacf344
+		summarizeBy: sum
+		sourceColumn: recency_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column frequency
+		dataType: int64
+		formatString: #,0
+		lineageTag: d49445d8-3079-5a2a-be34-6ae4ef40efd2
+		summarizeBy: sum
+		sourceColumn: frequency
+
+		annotation SummarizationSetBy = Automatic
+
+	column monetary
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: a51583a0-5669-5212-bc98-b67634e12cff
+		summarizeBy: sum
+		sourceColumn: monetary
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_order_value
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: c915861d-202f-533d-92a7-37dd952bb6f9
+		summarizeBy: sum
+		sourceColumn: avg_order_value
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_repeat
+		dataType: int64
+		formatString: #,0
+		lineageTag: 95c2b5e1-87c2-59ad-8ada-844654565233
+		summarizeBy: sum
+		sourceColumn: is_repeat
+
+		annotation SummarizationSetBy = Automatic
+
+	column buyer_type
+		dataType: string
+		lineageTag: 543433f5-23f6-5b30-9560-c53429546b09
+		summarizeBy: none
+		sourceColumn: buyer_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column clv_band
+		dataType: string
+		sortByColumn: clv_band_order
+		lineageTag: 1edbf391-515a-5b57-b061-1d2ae6b0c8b2
+		summarizeBy: none
+		sourceColumn: clv_band
+
+		annotation SummarizationSetBy = Automatic
+
+	column clv_band_order
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: 77499bbb-753e-5b8a-adef-f8531bf31d86
+		summarizeBy: sum
+		sourceColumn: clv_band_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column inactivity_band
+		dataType: string
+		sortByColumn: inactivity_band_order
+		lineageTag: 821ddcbd-c0e6-5ed3-b677-7d1a54ded2a7
+		summarizeBy: none
+		sourceColumn: inactivity_band
+
+		annotation SummarizationSetBy = Automatic
+
+	column inactivity_band_order
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: 2576922d-3de9-5464-b7fe-0b217893bff7
+		summarizeBy: sum
+		sourceColumn: inactivity_band_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column historical_clv
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: aa21665b-91e8-5968-8938-00facc457f81
+		summarizeBy: sum
+		sourceColumn: historical_clv
+
+		annotation SummarizationSetBy = Automatic
+
+	column predicted_clv_12m
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: 1e0f0bdd-7f53-50d1-a90b-5bccc7538e78
+		summarizeBy: sum
+		sourceColumn: predicted_clv_12m
+
+		annotation SummarizationSetBy = Automatic
+
+	column p_alive
+		dataType: double
+		formatString: 0.0%
+		lineageTag: a9e757ee-4586-52ad-a667-ecb9a2ac11d8
+		summarizeBy: sum
+		sourceColumn: p_alive
+
+		annotation SummarizationSetBy = Automatic
+
+	column clv_tier
+		dataType: string
+		sortByColumn: clv_tier_order
+		lineageTag: 432243dc-e5c2-5ad7-915c-99af31ff5a6e
+		summarizeBy: none
+		sourceColumn: clv_tier
+
+		annotation SummarizationSetBy = Automatic
+
+	column clv_tier_order
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: 4a41d2dd-d540-595b-9c52-a4118838a1bc
+		summarizeBy: sum
+		sourceColumn: clv_tier_order
+
+		annotation SummarizationSetBy = Automatic
+
+	column top_category_group
+		dataType: string
+		lineageTag: cec93742-0674-58c6-bc5f-f68c27bfa2e4
+		summarizeBy: none
+		sourceColumn: top_category_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_review_score
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 75a5720d-c7f5-5086-b170-79b0b805f597
+		summarizeBy: sum
+		sourceColumn: avg_review_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_installments
+		dataType: double
+		formatString: #,0.00
+		lineageTag: f883756e-2479-5874-986d-c4e5652e8062
+		summarizeBy: sum
+		sourceColumn: avg_installments
+
+		annotation SummarizationSetBy = Automatic
+
+	column late_delivery_share
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 57eb47ab-5969-5817-bcb0-261f1a69aaba
+		summarizeBy: sum
+		sourceColumn: late_delivery_share
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_purchase_interval_days
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 264e1eac-1c41-5c77-a44d-0e59bcca7697
+		summarizeBy: sum
+		sourceColumn: avg_purchase_interval_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_high_value_at_risk
+		dataType: int64
+		formatString: #,0
+		lineageTag: aa225d5a-14e0-52ca-8886-b0f62972a0da
+		summarizeBy: sum
+		sourceColumn: is_high_value_at_risk
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_high_potential
+		dataType: int64
+		formatString: #,0
+		lineageTag: 34cbfbb8-9e0b-5322-84c1-d082e3dce5bd
+		summarizeBy: sum
+		sourceColumn: is_high_potential
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_customer = m
+		mode: directQuery
+		source =
+				let
+				    Source = PostgreSQL.Database(PgServer, PgDatabase),
+				    Data = Source{[Schema="pbi",Item="dim_customer"]}[Data]
+				in
+				    Data
+
+	annotation PBI_ResultType = Table

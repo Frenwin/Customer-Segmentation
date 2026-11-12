@@ -1,0 +1,15 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.0.0/schema.json",
+  "pageOrder": [
+    "executive_overview",
+    "segmentation_analysis",
+    "customer_value",
+    "retention_churn",
+    "purchasing_behavior",
+    "marketing_strategy",
+    "customer_details",
+    "segment_tooltip",
+    "appendix_models_kpis"
+  ],
+  "activePageName": "executive_overview"
+}

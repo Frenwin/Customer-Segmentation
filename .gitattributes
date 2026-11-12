@@ -1,0 +1,15 @@
+# normalise line endings in the repository (project is developed on Windows)
+* text=auto eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+
+# binary artefacts
+*.png binary
+*.xlsx binary
+*.joblib binary
+*.pbix binary
+
+# GitHub language stats: generated Power BI definition files are not source code
+11_powerbi/CustomerSegmentation.Report/** linguist-generated
+11_powerbi/CustomerSegmentation.SemanticModel/** linguist-generated
+*.ipynb linguist-documentation

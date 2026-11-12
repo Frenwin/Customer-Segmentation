@@ -1,0 +1,231 @@
+table segment_profile
+	lineageTag: fa3fb0df-ea59-54e6-9fc4-194a95d7ebc2
+
+	measure 'Profile Color' = SELECTEDVALUE('segment_profile'[color], "#C5CAD6")
+		lineageTag: f55d9150-3d39-5572-9020-5d7784d5483d
+
+	measure 'Growth Color' = VAR g = SELECTEDVALUE('segment_profile'[segment_growth_rate]) RETURN IF(g < 0, "#C8423B", "#3A5BA0")
+		lineageTag: 3dd2a01a-5bce-56cb-bf4d-fcd43c7926f1
+
+	column segment_id
+		dataType: string
+		lineageTag: 1a546ae8-6d94-54bb-af8e-eabd23df3bcb
+		summarizeBy: none
+		sourceColumn: segment_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment_name
+		dataType: string
+		sortByColumn: segment_id
+		lineageTag: 4518ec40-837c-55d2-b8a5-2a59cd1e7400
+		summarizeBy: none
+		sourceColumn: segment_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment_description
+		dataType: string
+		lineageTag: e23f5837-c78a-557b-bb20-2c19cde26030
+		summarizeBy: none
+		sourceColumn: segment_description
+
+		annotation SummarizationSetBy = Automatic
+
+	column recommended_strategy
+		dataType: string
+		lineageTag: f7d7594e-842e-5960-94cc-c1286fb7b9a3
+		summarizeBy: none
+		sourceColumn: recommended_strategy
+
+		annotation SummarizationSetBy = Automatic
+
+	column color
+		dataType: string
+		isHidden
+		lineageTag: f343352b-7e14-5912-834a-54c81de9f08d
+		summarizeBy: none
+		sourceColumn: color
+
+		annotation SummarizationSetBy = Automatic
+
+	column customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: 0810cfc1-8053-5094-b16b-b60bb9eec68b
+		summarizeBy: sum
+		sourceColumn: customers
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_share
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 0d1370c8-37e6-500c-a3f2-6c9f599522f5
+		summarizeBy: sum
+		sourceColumn: customer_share
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: da87269f-0cc7-57ad-b3c8-1e11cf0280f4
+		summarizeBy: sum
+		sourceColumn: revenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue_contribution
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 1a7c5a60-aa5a-585b-b71f-352b732a0701
+		summarizeBy: sum
+		sourceColumn: revenue_contribution
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_recency_days
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 3b0a0671-1963-59d8-b4c5-07ca743db289
+		summarizeBy: sum
+		sourceColumn: avg_recency_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_frequency
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 9ebaeb2e-1515-5e34-accc-a82727b1718e
+		summarizeBy: sum
+		sourceColumn: avg_frequency
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_monetary
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: d045e8f4-24d1-5ec4-8753-bd701f00b6c3
+		summarizeBy: sum
+		sourceColumn: avg_monetary
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_order_value
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: 8e83b6dd-b59a-5dd9-94b5-2289271a9f44
+		summarizeBy: sum
+		sourceColumn: avg_order_value
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_historical_clv
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: f419a446-08a6-58e0-bba3-da042501c891
+		summarizeBy: sum
+		sourceColumn: avg_historical_clv
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_predicted_clv_12m
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: cf9ea93b-c250-5e66-8576-a4ab413ac4c2
+		summarizeBy: sum
+		sourceColumn: avg_predicted_clv_12m
+
+		annotation SummarizationSetBy = Automatic
+
+	column retention_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 581973a2-2948-5b41-adca-27fef762884c
+		summarizeBy: sum
+		sourceColumn: retention_rate
+
+		annotation SummarizationSetBy = Automatic
+
+	column churn_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 91d25ed6-e0ad-516e-b5f3-c4aa81684ab9
+		summarizeBy: sum
+		sourceColumn: churn_rate
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_review_score
+		dataType: double
+		formatString: #,0.00
+		lineageTag: ddcae212-0d01-5655-afa9-9b645edd37ff
+		summarizeBy: sum
+		sourceColumn: avg_review_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column late_delivery_share
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 1a4c5db6-2ee7-5772-95a2-0f0f215f149e
+		summarizeBy: sum
+		sourceColumn: late_delivery_share
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_installments
+		dataType: double
+		formatString: #,0.00
+		lineageTag: f4e8b3ad-3bf8-541c-b190-fddb4e64436f
+		summarizeBy: sum
+		sourceColumn: avg_installments
+
+		annotation SummarizationSetBy = Automatic
+
+	column top_category_group
+		dataType: string
+		lineageTag: 14e6b22e-51dd-5314-a639-b0b5e672ecab
+		summarizeBy: none
+		sourceColumn: top_category_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column customers_prev_snapshot
+		dataType: int64
+		formatString: #,0
+		lineageTag: ed54bd88-e60c-5067-b839-a89e37dd7b3e
+		summarizeBy: sum
+		sourceColumn: customers_prev_snapshot
+
+		annotation SummarizationSetBy = Automatic
+
+	column segment_growth_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 4fca18b5-39d2-5df6-9e47-d7dc1879b053
+		summarizeBy: sum
+		sourceColumn: segment_growth_rate
+
+		annotation SummarizationSetBy = Automatic
+
+	column expected_purchases_12m
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 39dff7be-8c80-571c-ac21-cb5fb7f83e67
+		summarizeBy: sum
+		sourceColumn: expected_purchases_12m
+
+		annotation SummarizationSetBy = Automatic
+
+	partition segment_profile = m
+		mode: directQuery
+		source =
+				let
+				    Source = PostgreSQL.Database(PgServer, PgDatabase),
+				    Data = Source{[Schema="pbi",Item="segment_profile"]}[Data]
+				in
+				    Data
+
+	annotation PBI_ResultType = Table

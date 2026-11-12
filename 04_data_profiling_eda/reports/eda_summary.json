@@ -1,0 +1,64 @@
+{
+  "one_time_share": 0.9700442515896202,
+  "delivery_vs_review_spearman": -0.23444514991309293,
+  "review_on_time": 4.291157408445651,
+  "review_late": 2.270617748510505,
+  "installments_vs_value_spearman": 0.3811624881210881,
+  "median_monetary_repeat": 225.63,
+  "median_monetary_one_time": 105.38,
+  "repeat_vs_one_time_p": 0.0,
+  "aov_repeat": 110.04,
+  "aov_one_time": 105.38,
+  "high_corr_pairs": [
+    [
+      "recency_days",
+      "tenure_days",
+      0.9868582214529945
+    ],
+    [
+      "frequency",
+      "activity_period_days",
+      0.844685494125125
+    ],
+    [
+      "monetary",
+      "avg_order_value",
+      0.9868939749027464
+    ],
+    [
+      "n_categories",
+      "top_category_spend_ratio",
+      -0.8815121807100275
+    ],
+    [
+      "n_categories",
+      "n_category_groups",
+      0.881573105018257
+    ],
+    [
+      "top_category_spend_ratio",
+      "n_category_groups",
+      -0.9999382373921808
+    ],
+    [
+      "activity_period_days",
+      "active_months",
+      0.9178351727732581
+    ],
+    [
+      "credit_card_order_share",
+      "boleto_order_share",
+      -0.8753294558494567
+    ],
+    [
+      "avg_review_score",
+      "min_review_score",
+      0.9991205818627442
+    ]
+  ],
+  "pca_explained_first3": [
+    0.24310417886210134,
+    0.17598324626887152,
+    0.13414091635662115
+  ]
+}

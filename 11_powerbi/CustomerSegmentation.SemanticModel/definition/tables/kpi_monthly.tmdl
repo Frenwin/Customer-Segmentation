@@ -1,0 +1,138 @@
+table kpi_monthly
+	lineageTag: adc6573a-d8a6-5354-a7c8-a42bb1ebb4a3
+
+	column month
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 1847ecd5-369f-586c-97d4-077936ec9100
+		summarizeBy: none
+		sourceColumn: month
+
+		annotation SummarizationSetBy = Automatic
+
+	column year_month
+		dataType: string
+		lineageTag: 27fca909-badf-5ee1-b547-15786793fb7c
+		summarizeBy: none
+		sourceColumn: year_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: 4ed2bdac-1a30-5b19-a8d4-e30640a5446d
+		summarizeBy: sum
+		sourceColumn: orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column purchasing_customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: 21c4a7ea-8047-57f2-b309-45a03c96488b
+		summarizeBy: sum
+		sourceColumn: purchasing_customers
+
+		annotation SummarizationSetBy = Automatic
+
+	column new_customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: ec738092-649f-556e-a92d-415ae42e4e55
+		summarizeBy: sum
+		sourceColumn: new_customers
+
+		annotation SummarizationSetBy = Automatic
+
+	column returning_customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: 90b90819-4e87-52e2-80be-999b5ef30607
+		summarizeBy: sum
+		sourceColumn: returning_customers
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: cfdef2ff-5d7d-5115-b1b0-ce493a660a47
+		summarizeBy: sum
+		sourceColumn: revenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column avg_order_value
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: ba621411-db8a-5939-8c22-05cce8dfb373
+		summarizeBy: sum
+		sourceColumn: avg_order_value
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue_per_customer
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: 4c485185-5f35-52a5-a2d6-8bf62455db94
+		summarizeBy: sum
+		sourceColumn: revenue_per_customer
+
+		annotation SummarizationSetBy = Automatic
+
+	column purchase_frequency
+		dataType: double
+		formatString: #,0.00
+		lineageTag: d908c782-09ef-5fda-a5cd-3a08337971a7
+		summarizeBy: sum
+		sourceColumn: purchase_frequency
+
+		annotation SummarizationSetBy = Automatic
+
+	column cumulative_customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: 8bf73836-a9d8-5085-8ec4-d2adfe3a36bc
+		summarizeBy: sum
+		sourceColumn: cumulative_customers
+
+		annotation SummarizationSetBy = Automatic
+
+	column acquisition_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 14eb1de5-75aa-5101-84c1-0c1da6e46ae8
+		summarizeBy: sum
+		sourceColumn: acquisition_rate
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_growth_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 69cba9dc-cfcd-5b8b-9de4-dc8a62d3ad31
+		summarizeBy: sum
+		sourceColumn: customer_growth_rate
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue_growth_mom
+		dataType: double
+		formatString: 0.0%
+		lineageTag: c2099e38-1a0b-5078-9977-9d3c11bf8337
+		summarizeBy: sum
+		sourceColumn: revenue_growth_mom
+
+		annotation SummarizationSetBy = Automatic
+
+	partition kpi_monthly = m
+		mode: directQuery
+		source =
+				let
+				    Source = PostgreSQL.Database(PgServer, PgDatabase),
+				    Data = Source{[Schema="pbi",Item="kpi_monthly"]}[Data]
+				in
+				    Data
+
+	annotation PBI_ResultType = Table

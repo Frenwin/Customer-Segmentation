@@ -1,0 +1,55 @@
+{
+  "bgnbd_calibration_params": {
+    "r": 0.01672435807277169,
+    "alpha": 9.695055419268781,
+    "a": 1.3543854041774261,
+    "b": 0.2327223999028959,
+    "nll": 8422.659503886987,
+    "converged": true
+  },
+  "bgnbd_full_params": {
+    "r": 0.015654292848602966,
+    "alpha": 9.516825224286475,
+    "a": 2.058720890842076,
+    "b": 0.351321398015103,
+    "nll": 17806.47945330078,
+    "converged": true
+  },
+  "gamma_gamma_params": {
+    "p": 5.992376090153051,
+    "q": 2.8095966805026085,
+    "v": 46.08960353083919,
+    "nll": 11724.50219334675,
+    "converged": true,
+    "n_fit": 2005
+  },
+  "validation": {
+    "calibration_customers": 55267,
+    "holdout_weeks": 26.3,
+    "actual_total": 696.0,
+    "bgnbd_total": 733.5935804522882,
+    "naive_total": 1485.442650281801,
+    "bgnbd_mae": 0.025180311253420705,
+    "naive_mae": 0.037429942606729306,
+    "bgnbd_spearman": 0.03365277813327313,
+    "naive_spearman": 0.055618752272101155,
+    "share_customers_repeating_in_holdout": 0.01176108708632638,
+    "bgnbd_top10pct_capture": 0.21695402298850575
+  },
+  "gamma_gamma_assumption": {
+    "repeat_customers": 2005,
+    "pearson_r_frequency_vs_value": 0.0021522790160428225,
+    "p_value": 0.923271910327804,
+    "passes": true
+  },
+  "population_mean_value_gg": 152.62309064698593,
+  "predicted_revenue_12m_total": 230277.23008211816,
+  "expected_purchases_12m_total": 1509.6641023861273,
+  "historical_revenue_total": 15373120.01,
+  "historical_clv_quantiles": {
+    "0.5": 107.78,
+    "0.8": 208.47,
+    "0.9": 317.84,
+    "0.99": 1097.68
+  }
+}

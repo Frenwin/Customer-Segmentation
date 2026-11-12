@@ -1,0 +1,64 @@
+table meta
+	lineageTag: c9fcdc98-31c7-5df9-86da-c2672b0f55da
+
+	measure 'Data As Of' = "Data as of " & FORMAT(MAX('meta'[analysis_date]), "dd mmm yyyy") & "  ·  refreshed " & FORMAT(MAX('meta'[refreshed_at]), "dd mmm yyyy hh:nn")
+		lineageTag: b8c8a2c7-ba2c-567c-8f04-66f566f0e337
+
+	measure 'Campaign Note' = "Campaign performance: not available — the Olist dataset contains no campaign history. Measure each strategy with an A/B test against a hold-out group."
+		lineageTag: 1c070a50-c699-537e-a57f-5341d6900dd9
+
+	column analysis_date
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 16105467-cdf3-57e1-bb71-e0ea1b47c304
+		summarizeBy: none
+		sourceColumn: analysis_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column window_start
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 7fa3a9d6-4666-5871-80fa-ac2309a5284b
+		summarizeBy: none
+		sourceColumn: window_start
+
+		annotation SummarizationSetBy = Automatic
+
+	column window_end
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: da9f032a-b778-529a-bd77-c86eee67f67a
+		summarizeBy: none
+		sourceColumn: window_end
+
+		annotation SummarizationSetBy = Automatic
+
+	column refreshed_at
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 5b38c7bc-6d07-5e17-863e-ff25745dcf3e
+		summarizeBy: none
+		sourceColumn: refreshed_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column fx_brl_idr
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 4739664e-89b0-5602-b977-b8adc266b485
+		summarizeBy: sum
+		sourceColumn: fx_brl_idr
+
+		annotation SummarizationSetBy = Automatic
+
+	partition meta = m
+		mode: directQuery
+		source =
+				let
+				    Source = PostgreSQL.Database(PgServer, PgDatabase),
+				    Data = Source{[Schema="pbi",Item="meta"]}[Data]
+				in
+				    Data
+
+	annotation PBI_ResultType = Table

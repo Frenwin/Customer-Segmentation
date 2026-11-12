@@ -1,0 +1,155 @@
+table period_retention
+	lineageTag: b98e0cd0-8c82-5358-859b-655b462329fe
+
+	measure 'Retention Rate' = DIVIDE(SUM('period_retention'[retained_customers]), SUM('period_retention'[eligible_customers]))
+		formatString: 0.00%
+		lineageTag: a3b40bfc-7cb7-5539-8228-58e83da0fc6d
+
+	measure 'Churn Rate' = 1 - [Retention Rate]
+		formatString: 0.00%
+		lineageTag: 0bee0b39-1c32-59d2-b3a1-cbcb15ef2ae4
+
+	measure 'Reactivation Rate' = DIVIDE(SUM('period_retention'[reactivated_customers]), SUM('period_retention'[inactive_customers]))
+		formatString: 0.00%
+		lineageTag: 879faa97-725a-51e3-8336-855770c55793
+
+	measure 'Reactivated Customers' = SUM('period_retention'[reactivated_customers])
+		formatString: #,0
+		lineageTag: 7929b643-a784-5050-a9bd-3c70afd8174e
+
+	measure 'Retention Rate (label)' = VAR v = [Retention Rate] RETURN IF(ISBLANK(v), "–", FORMAT(v, "0.00%"))
+		lineageTag: c9605af1-09f3-5e7a-a113-1167b646575e
+
+	measure 'Churn Rate (label)' = VAR v = [Churn Rate] RETURN IF(ISBLANK(v), "–", FORMAT(v, "0.00%"))
+		lineageTag: 10f570f6-3e66-5b16-9755-41c5f74b9367
+
+	measure 'Reactivated Customers (label)' = VAR v = [Reactivated Customers] RETURN IF(ISBLANK(v), "–", FORMAT(v, "#,0"))
+		lineageTag: 301bb6ff-e58b-544a-9ebb-d747a462eca9
+
+	column period_start
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 80dfe67e-38d0-5f5e-87a9-5b35ee74d9b2
+		summarizeBy: none
+		sourceColumn: period_start
+
+		annotation SummarizationSetBy = Automatic
+
+	column period_end
+		dataType: dateTime
+		formatString: yyyy-mm-dd
+		lineageTag: 7d11c007-7ea6-5504-ad1d-538b54b2d1eb
+		summarizeBy: none
+		sourceColumn: period_end
+
+		annotation SummarizationSetBy = Automatic
+
+	column period
+		dataType: string
+		sortByColumn: period_start
+		lineageTag: a4f3edea-1488-5e6e-b196-aec90cfe24d3
+		summarizeBy: none
+		sourceColumn: period
+
+		annotation SummarizationSetBy = Automatic
+
+	column eligible_customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: 6bbde534-c66c-52d7-8026-071a82d26eb9
+		summarizeBy: sum
+		sourceColumn: eligible_customers
+
+		annotation SummarizationSetBy = Automatic
+
+	column retained_customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: 9d886cd4-e560-50da-a742-1e7c0d991120
+		summarizeBy: sum
+		sourceColumn: retained_customers
+
+		annotation SummarizationSetBy = Automatic
+
+	column retention_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: b4e1353e-6a6f-5f7b-9701-d9b00d544479
+		summarizeBy: sum
+		sourceColumn: retention_rate
+
+		annotation SummarizationSetBy = Automatic
+
+	column churned_customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: 092fe1b1-92c5-5ba4-9251-dced926edc3c
+		summarizeBy: sum
+		sourceColumn: churned_customers
+
+		annotation SummarizationSetBy = Automatic
+
+	column churn_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: b7d3c5e5-6036-5b53-aaf9-9407cdaae525
+		summarizeBy: sum
+		sourceColumn: churn_rate
+
+		annotation SummarizationSetBy = Automatic
+
+	column inactive_customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: ac64dd02-d62e-5a9e-85c5-f20bb46d9a88
+		summarizeBy: sum
+		sourceColumn: inactive_customers
+
+		annotation SummarizationSetBy = Automatic
+
+	column reactivated_customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: 2e11a2e9-785c-5164-9008-04b60ea8b6ce
+		summarizeBy: sum
+		sourceColumn: reactivated_customers
+
+		annotation SummarizationSetBy = Automatic
+
+	column reactivation_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 4789d2ef-609d-5619-8e05-5e4f26d3103e
+		summarizeBy: sum
+		sourceColumn: reactivation_rate
+
+		annotation SummarizationSetBy = Automatic
+
+	column purchasing_customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: 8fe0d186-fa33-5ef0-9eb1-b574d0987946
+		summarizeBy: sum
+		sourceColumn: purchasing_customers
+
+		annotation SummarizationSetBy = Automatic
+
+	column new_customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: 21d87292-2c4f-5183-a1bb-7969aa2e88e0
+		summarizeBy: sum
+		sourceColumn: new_customers
+
+		annotation SummarizationSetBy = Automatic
+
+	partition period_retention = m
+		mode: directQuery
+		source =
+				let
+				    Source = PostgreSQL.Database(PgServer, PgDatabase),
+				    Data = Source{[Schema="pbi",Item="period_retention"]}[Data]
+				in
+				    Data
+
+	annotation PBI_ResultType = Table

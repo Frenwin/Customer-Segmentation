@@ -1,0 +1,180 @@
+table fact_orders
+	lineageTag: 61a3ef94-a5c9-50a5-9444-585458f2fb95
+
+	measure Orders = COUNTROWS('fact_orders')
+		formatString: #,0
+		lineageTag: 56db109e-219a-5100-b7b2-462e7904a19a
+
+	measure 'New Customers' = CALCULATE(DISTINCTCOUNT('fact_orders'[customer_key]), 'fact_orders'[is_first_order] = 1)
+		formatString: #,0
+		lineageTag: 3a06b857-b8ae-54c7-8f4b-b53f73b0ccc2
+
+	measure 'Returning Customers' = CALCULATE(DISTINCTCOUNT('fact_orders'[customer_key]), 'fact_orders'[is_first_order] = 0)
+		formatString: #,0
+		lineageTag: 924b1c76-a4e4-5aaa-9942-20daa45cf961
+
+	measure 'Average Review Score' = AVERAGE('fact_orders'[review_score])
+		formatString: 0.00
+		lineageTag: 83c4cf64-bc56-56dd-9872-9700d0dcd254
+
+	measure 'Late Delivery Share' = AVERAGE('fact_orders'[is_late])
+		formatString: 0.0%
+		lineageTag: f8b0fcfa-a587-5b09-a502-50ac752a07d4
+
+	measure 'Average Delivery Days' = AVERAGE('fact_orders'[delivery_days])
+		formatString: 0.0
+		lineageTag: 6f116594-9f64-5935-8a77-94b5be820f02
+
+	measure 'Average Installments' = AVERAGE('fact_orders'[installments])
+		formatString: 0.00
+		lineageTag: 060056e8-e078-5b6c-85a0-df09d4d133b0
+
+	measure 'New Customers (label)' = VAR v = [New Customers] RETURN IF(ISBLANK(v), "–", FORMAT(v, "#,0"))
+		lineageTag: f4c6bb72-57d5-56e8-8dfd-296bb54a3edd
+
+	measure 'Average Installments (label)' = VAR v = [Average Installments] RETURN IF(ISBLANK(v), "–", FORMAT(v, "0.00"))
+		lineageTag: 943e0348-5989-5ba0-8a2b-61ea88ca9671
+
+	measure 'Average Review Score (label)' = VAR v = [Average Review Score] RETURN IF(ISBLANK(v), "–", FORMAT(v, "0.00"))
+		lineageTag: f29c5c68-a6ab-5982-b29a-ae1f805aa075
+
+	column order_key
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: 5a7b34e3-1dd8-5e61-b1ba-259ac7c30589
+		summarizeBy: none
+		sourceColumn: order_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_key
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: e0c46e8b-13cd-52f4-9f78-bedc45712f2e
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_key
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: d4824cf6-3dbb-528a-a6aa-2bd8f05d3fec
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_method_key
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: 615618ab-eccd-5bfb-9c0a-c367b92cdaf3
+		summarizeBy: none
+		sourceColumn: payment_method_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column purchase_hour
+		dataType: int64
+		formatString: #,0
+		lineageTag: eafdc31e-248a-539e-b533-7a84c3db462b
+		summarizeBy: none
+		sourceColumn: purchase_hour
+
+		annotation SummarizationSetBy = Automatic
+
+	column n_items
+		dataType: int64
+		formatString: #,0
+		lineageTag: 3c069e51-ce17-57f9-bb52-60ea66a8c3b9
+		summarizeBy: sum
+		sourceColumn: n_items
+
+		annotation SummarizationSetBy = Automatic
+
+	column n_categories
+		dataType: int64
+		formatString: #,0
+		lineageTag: 12d2c0a1-133e-5be0-8075-0c3319fb1a2a
+		summarizeBy: sum
+		sourceColumn: n_categories
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_value
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: 38bf76e3-11a3-58b2-bde7-77ae6906f2e9
+		summarizeBy: sum
+		sourceColumn: order_value
+
+		annotation SummarizationSetBy = Automatic
+
+	column freight_value
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: bde383fd-2a1b-5854-b0a6-8abc75a1ee4a
+		summarizeBy: sum
+		sourceColumn: freight_value
+
+		annotation SummarizationSetBy = Automatic
+
+	column installments
+		dataType: int64
+		formatString: #,0
+		lineageTag: 2f0419e7-bfee-554d-b645-acd75315d96e
+		summarizeBy: sum
+		sourceColumn: installments
+
+		annotation SummarizationSetBy = Automatic
+
+	column review_score
+		dataType: int64
+		formatString: #,0
+		lineageTag: c893c5cf-19d0-5250-a2e9-9556e960f6c1
+		summarizeBy: sum
+		sourceColumn: review_score
+
+		annotation SummarizationSetBy = Automatic
+
+	column delivery_days
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 9b502bb8-6a0f-589b-9cb6-6a1daf2eee89
+		summarizeBy: sum
+		sourceColumn: delivery_days
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_late
+		dataType: int64
+		formatString: #,0
+		lineageTag: bec5fa0d-b253-5b4f-810e-5cf8d94f344c
+		summarizeBy: sum
+		sourceColumn: is_late
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_first_order
+		dataType: int64
+		formatString: #,0
+		lineageTag: 427ea07c-d028-5e3e-b7f8-658b7ca00021
+		summarizeBy: none
+		sourceColumn: is_first_order
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_orders = m
+		mode: directQuery
+		source =
+				let
+				    Source = PostgreSQL.Database(PgServer, PgDatabase),
+				    Data = Source{[Schema="pbi",Item="fact_orders"]}[Data]
+				in
+				    Data
+
+	annotation PBI_ResultType = Table

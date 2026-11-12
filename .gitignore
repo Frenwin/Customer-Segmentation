@@ -1,0 +1,41 @@
+# ---------------------------------------------------------------- private documents (kept local only)
+PRD.md
+
+# ---------------------------------------------------------------- data (download / regenerate, see 02_data/README.md)
+02_data/raw/*
+!02_data/raw/.gitkeep
+02_data/interim/*
+!02_data/interim/.gitkeep
+02_data/external/*
+!02_data/external/.gitkeep
+# customer-level derived tables: regenerable, kept out of git (size + PRD 12.3 privacy)
+02_data/processed/*
+!02_data/processed/.gitkeep
+08_customer_analytics/customer_lifetime_value/customer_clv.csv
+
+# ---------------------------------------------------------------- experiment artifacts (regenerable) - keep the final model only
+artifacts/*
+!artifacts/models/
+artifacts/models/*
+!artifacts/models/final_segmentation_model.joblib
+
+# ---------------------------------------------------------------- Python / Jupyter
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+*.log
+
+# ---------------------------------------------------------------- Power BI local state
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+
+# ---------------------------------------------------------------- editors / OS / secrets
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+.env

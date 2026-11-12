@@ -1,0 +1,117 @@
+table kpi_dictionary
+	lineageTag: 6dec0c43-423c-5a9d-85eb-2c132dac09c4
+
+	column category
+		dataType: string
+		lineageTag: 8cc36bcc-4401-527c-b0d7-0438dd3547e6
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column kpi
+		dataType: string
+		lineageTag: e7b81185-c307-5f6b-a251-0d5977283a08
+		summarizeBy: none
+		sourceColumn: kpi
+
+		annotation SummarizationSetBy = Automatic
+
+	column business_definition
+		dataType: string
+		lineageTag: 14b12307-8b4d-5a02-94d0-7f9ac1803b4b
+		summarizeBy: none
+		sourceColumn: business_definition
+
+		annotation SummarizationSetBy = Automatic
+
+	column formula
+		dataType: string
+		lineageTag: dfc3a0fc-ef17-50d3-afa1-d6b52cd9c7c8
+		summarizeBy: none
+		sourceColumn: formula
+
+		annotation SummarizationSetBy = Automatic
+
+	column dax_measure
+		dataType: string
+		lineageTag: bbf51d04-3a0d-5f56-af72-5732b1ecb978
+		summarizeBy: none
+		sourceColumn: dax_measure
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_source
+		dataType: string
+		lineageTag: 6f86a236-51d9-5161-b188-c2744a254e82
+		summarizeBy: none
+		sourceColumn: data_source
+
+		annotation SummarizationSetBy = Automatic
+
+	column granularity
+		dataType: string
+		lineageTag: 63bcfe2c-453c-5c9f-badd-e82b3f6c417c
+		summarizeBy: none
+		sourceColumn: granularity
+
+		annotation SummarizationSetBy = Automatic
+
+	column update_frequency
+		dataType: string
+		lineageTag: 61cc5ebb-0fb9-5042-9b12-e2af133beebb
+		summarizeBy: none
+		sourceColumn: update_frequency
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit
+		dataType: string
+		lineageTag: dec893c8-cb85-53d3-9a05-5fba4951f30f
+		summarizeBy: none
+		sourceColumn: unit
+
+		annotation SummarizationSetBy = Automatic
+
+	column baseline_display
+		dataType: string
+		lineageTag: fb99dd55-d8e3-5e08-ae27-a15234893e78
+		summarizeBy: none
+		sourceColumn: baseline_display
+
+		annotation SummarizationSetBy = Automatic
+
+	column target_display
+		dataType: string
+		lineageTag: 80cd8154-52be-55ee-a832-25d79b876a93
+		summarizeBy: none
+		sourceColumn: target_display
+
+		annotation SummarizationSetBy = Automatic
+
+	column target_basis
+		dataType: string
+		lineageTag: 0b23a45c-5458-5000-9c5d-9db05fca5633
+		summarizeBy: none
+		sourceColumn: target_basis
+
+		annotation SummarizationSetBy = Automatic
+
+	column business_owner
+		dataType: string
+		lineageTag: b231f377-4470-5d63-ac2b-7a96941e11cd
+		summarizeBy: none
+		sourceColumn: business_owner
+
+		annotation SummarizationSetBy = Automatic
+
+	partition kpi_dictionary = m
+		mode: directQuery
+		source =
+				let
+				    Source = PostgreSQL.Database(PgServer, PgDatabase),
+				    Data = Source{[Schema="pbi",Item="kpi_dictionary"]}[Data]
+				in
+				    Data
+
+	annotation PBI_ResultType = Table

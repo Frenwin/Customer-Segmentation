@@ -1,0 +1,39 @@
+table dim_payment_method
+	lineageTag: e4b82483-b93f-5e6f-b633-da10d400f9a6
+
+	column payment_method_key
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: ca2ac1b0-e120-5c00-80ea-e03c6bc59b42
+		summarizeBy: none
+		sourceColumn: payment_method_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_type
+		dataType: string
+		lineageTag: 8b0ecfcb-fe81-5504-b401-95f5fbf4f621
+		summarizeBy: none
+		sourceColumn: payment_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_method
+		dataType: string
+		lineageTag: d242b0ad-1927-5404-9b21-7a709ff1fea1
+		summarizeBy: none
+		sourceColumn: payment_method
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_payment_method = m
+		mode: directQuery
+		source =
+				let
+				    Source = PostgreSQL.Database(PgServer, PgDatabase),
+				    Data = Source{[Schema="pbi",Item="dim_payment_method"]}[Data]
+				in
+				    Data
+
+	annotation PBI_ResultType = Table

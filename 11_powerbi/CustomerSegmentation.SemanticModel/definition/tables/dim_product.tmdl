@@ -1,0 +1,39 @@
+table dim_product
+	lineageTag: c6ff9230-1d02-5e9f-864a-c93dc29d998a
+
+	column product_key
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: f0bf896d-e0a6-5948-93d2-be48da296388
+		summarizeBy: none
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column category
+		dataType: string
+		lineageTag: c90cb48d-d1a8-5d10-a2cc-73cdddbc9b63
+		summarizeBy: none
+		sourceColumn: category
+
+		annotation SummarizationSetBy = Automatic
+
+	column category_group
+		dataType: string
+		lineageTag: d1f13e81-c470-580f-8c4f-7b44f146ce5d
+		summarizeBy: none
+		sourceColumn: category_group
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_product = m
+		mode: directQuery
+		source =
+				let
+				    Source = PostgreSQL.Database(PgServer, PgDatabase),
+				    Data = Source{[Schema="pbi",Item="dim_product"]}[Data]
+				in
+				    Data
+
+	annotation PBI_ResultType = Table

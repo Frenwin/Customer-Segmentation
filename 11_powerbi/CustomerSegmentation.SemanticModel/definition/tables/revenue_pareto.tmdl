@@ -1,0 +1,45 @@
+table revenue_pareto
+	lineageTag: 23db42de-59cc-5a2f-8c06-34230b8f1190
+
+	measure 'Top 10% Revenue Share' = CALCULATE(MAX('revenue_pareto'[cum_revenue_share]), 'revenue_pareto'[customer_pct] = 0.10)
+		formatString: 0.0%
+		lineageTag: 40945c4d-7be0-5bc5-b081-08a3e16a98e6
+
+	measure 'Top 20% Revenue Share' = CALCULATE(MAX('revenue_pareto'[cum_revenue_share]), 'revenue_pareto'[customer_pct] = 0.20)
+		formatString: 0.0%
+		lineageTag: 8d1be815-ad96-5497-87e7-9fa49f549dab
+
+	measure 'Top 10% Revenue Share (label)' = VAR v = [Top 10% Revenue Share] RETURN IF(ISBLANK(v), "–", FORMAT(v, "0.0%"))
+		lineageTag: c6b1169a-74a6-55dc-94a7-89f5c5459c03
+
+	measure 'Top 20% Revenue Share (label)' = VAR v = [Top 20% Revenue Share] RETURN IF(ISBLANK(v), "–", FORMAT(v, "0.0%"))
+		lineageTag: 763b2690-deab-5565-93a7-23e4a99ba1cb
+
+	column customer_pct
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 9cec664f-09f3-5d50-9a8e-75f973726e24
+		summarizeBy: sum
+		sourceColumn: customer_pct
+
+		annotation SummarizationSetBy = Automatic
+
+	column cum_revenue_share
+		dataType: double
+		formatString: 0.0%
+		lineageTag: eec60f12-d253-5cf9-94ce-1bf27e30e9e9
+		summarizeBy: sum
+		sourceColumn: cum_revenue_share
+
+		annotation SummarizationSetBy = Automatic
+
+	partition revenue_pareto = m
+		mode: directQuery
+		source =
+				let
+				    Source = PostgreSQL.Database(PgServer, PgDatabase),
+				    Data = Source{[Schema="pbi",Item="revenue_pareto"]}[Data]
+				in
+				    Data
+
+	annotation PBI_ResultType = Table

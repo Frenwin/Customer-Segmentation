@@ -1,0 +1,189 @@
+table fact_sales
+	lineageTag: 34f3e3d2-76f1-507f-9ee0-596c9f5ff344
+
+	measure 'Total Revenue' = SUM('fact_sales'[line_total])
+		formatString: "Rp" #,0
+		lineageTag: d232f7b8-4074-5650-8cfe-263d60f565d5
+
+	measure 'Total Orders' = DISTINCTCOUNT('fact_sales'[order_key])
+		formatString: #,0
+		lineageTag: 6e8ef5d6-cb30-50be-aaf9-313082d5f086
+
+	measure 'Total Customers' = DISTINCTCOUNT('fact_sales'[customer_key])
+		formatString: #,0
+		lineageTag: ad8fd23e-8c1e-5848-87aa-e6fc59e18ff9
+
+	measure 'Items Sold' = SUM('fact_sales'[quantity])
+		formatString: #,0
+		lineageTag: 499d9ef2-4034-5bfe-b284-9b849fc375f5
+
+	measure 'Average Order Value' = DIVIDE([Total Revenue], [Total Orders])
+		formatString: "Rp" #,0
+		lineageTag: aa5786ca-624f-5a49-b68f-ef30636c5762
+
+	measure 'Average Revenue per Customer' = DIVIDE([Total Revenue], [Total Customers])
+		formatString: "Rp" #,0
+		lineageTag: 7fba2c92-f561-5b54-8590-5e82f1f44480
+
+	measure 'Purchase Frequency' = DIVIDE([Total Orders], [Total Customers])
+		formatString: 0.000
+		lineageTag: 1d7361e4-5b0a-57a7-aa14-7ef0afd4b336
+
+	measure 'Average Basket Size' = DIVIDE([Items Sold], [Total Orders])
+		formatString: 0.00
+		lineageTag: 37fa8ca3-e5ea-5a33-96b4-0725cd68ad06
+
+	measure 'Revenue Contribution' = DIVIDE([Total Revenue], CALCULATE([Total Revenue], REMOVEFILTERS('dim_customer'[segment_name], 'dim_customer'[segment_id])))
+		formatString: 0.0%
+		lineageTag: 4d1842b2-154b-5fd8-b196-215642889247
+
+	measure 'Segment Distribution' = DIVIDE([Total Customers], CALCULATE([Total Customers], REMOVEFILTERS('dim_customer'[segment_name], 'dim_customer'[segment_id])))
+		formatString: 0.0%
+		lineageTag: aa6a24bc-bf38-54c6-9a4f-093a51fc7ef1
+
+	measure 'Revenue Label' = VAR v = [Total Revenue] RETURN SWITCH(TRUE(), ISBLANK(v), "–", v >= 1e12, "Rp " & FORMAT(v / 1e12, "#,0.00") & " triliun", v >= 1e9, "Rp " & FORMAT(v / 1e9, "#,0.0") & " miliar", v >= 1e7, "Rp " & FORMAT(v / 1e6, "#,0.0") & " juta", "Rp " & FORMAT(v, "#,0"))
+		lineageTag: b1141575-0976-59b8-b892-8b1882a525b6
+
+	measure 'Revenue (Rp miliar)' = DIVIDE([Total Revenue], 1e9)
+		formatString: #,0.0
+		lineageTag: 210dad48-c254-55fc-a1f3-ca554174501c
+
+	measure 'AOV (Rp ribu)' = DIVIDE([Average Order Value], 1e3)
+		formatString: 0
+		lineageTag: fcde7cf8-faaa-5737-9583-9f5e73ca3402
+
+	measure 'Avg Spend (Rp ribu)' = DIVIDE([Average Revenue per Customer], 1e3)
+		formatString: 0
+		lineageTag: a703854f-7759-53eb-9e15-57f867cf2834
+
+	measure 'Top 10 Revenue' = VAR r = RANKX(ALLSELECTED('dim_customer'[customer_code]), [Total Revenue], , DESC) RETURN IF(r <= 10, [Total Revenue])
+		formatString: "Rp" #,0
+		lineageTag: 9b2bb2f7-8a29-5070-bc01-f0fee4de0855
+
+	measure 'Total Customers (label)' = VAR v = [Total Customers] RETURN IF(ISBLANK(v), "–", FORMAT(v, "#,0"))
+		lineageTag: 51046631-c4ab-5cb5-a4a6-c075eeb69a71
+
+	measure 'Average Order Value (label)' = VAR v = [Average Order Value] RETURN IF(ISBLANK(v), "–", SWITCH(TRUE(), v >= 1e9, "Rp " & FORMAT(v / 1e9, "#,0.0") & " miliar", v >= 1e7, "Rp " & FORMAT(v / 1e6, "#,0.0") & " juta", "Rp " & FORMAT(v, "#,0")))
+		lineageTag: bc85a7bd-9945-58f4-a04a-42b52d762b16
+
+	measure 'Segment Distribution (label)' = VAR v = [Segment Distribution] RETURN IF(ISBLANK(v), "–", FORMAT(v, "0.0%"))
+		lineageTag: 3321260f-4cd3-58b5-b835-e6af5f98ead2
+
+	measure 'Revenue Contribution (label)' = VAR v = [Revenue Contribution] RETURN IF(ISBLANK(v), "–", FORMAT(v, "0.0%"))
+		lineageTag: 690549f0-a07b-506b-a284-22aedcf63075
+
+	measure 'Average Revenue per Customer (label)' = VAR v = [Average Revenue per Customer] RETURN IF(ISBLANK(v), "–", SWITCH(TRUE(), v >= 1e9, "Rp " & FORMAT(v / 1e9, "#,0.0") & " miliar", v >= 1e7, "Rp " & FORMAT(v / 1e6, "#,0.0") & " juta", "Rp " & FORMAT(v, "#,0")))
+		lineageTag: 796aa367-3566-5c86-b37d-309ef5896dfc
+
+	measure 'Purchase Frequency (label)' = VAR v = [Purchase Frequency] RETURN IF(ISBLANK(v), "–", FORMAT(v, "0.000"))
+		lineageTag: 8bd944cc-fb92-550b-86dc-14f3ed886a04
+
+	measure 'Average Basket Size (label)' = VAR v = [Average Basket Size] RETURN IF(ISBLANK(v), "–", FORMAT(v, "0.00"))
+		lineageTag: cd969e93-df93-5cf3-97e2-9d93d41a1b4d
+
+	column sales_key
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: 9dcedddc-191b-554f-9156-ab1c85b1c8af
+		summarizeBy: none
+		sourceColumn: sales_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column order_key
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: 64e5dd01-d904-537e-b44c-d95815184cea
+		summarizeBy: none
+		sourceColumn: order_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column customer_key
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: 2514b57b-7850-503d-bff1-dadc226c1440
+		summarizeBy: none
+		sourceColumn: customer_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_key
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: 115bdb12-fd9a-531d-b697-f45c1032ad18
+		summarizeBy: none
+		sourceColumn: product_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_key
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: bc0e26d0-57eb-580c-a6cb-5e4b7cd9c98b
+		summarizeBy: none
+		sourceColumn: date_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column payment_method_key
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: 82d0a42a-05a3-5ab0-a829-65071912311e
+		summarizeBy: none
+		sourceColumn: payment_method_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column quantity
+		dataType: int64
+		formatString: #,0
+		lineageTag: ecccda1d-5c3c-5714-a80d-690f3fa675c1
+		summarizeBy: sum
+		sourceColumn: quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column unit_price
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: bce44a7f-7415-565c-a02f-bc91df2bbed4
+		summarizeBy: sum
+		sourceColumn: unit_price
+
+		annotation SummarizationSetBy = Automatic
+
+	column freight_value
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: e7e0ab68-c05d-54f5-8eba-b7ea3b90adfd
+		summarizeBy: sum
+		sourceColumn: freight_value
+
+		annotation SummarizationSetBy = Automatic
+
+	column line_total
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: eced486c-4dd7-5009-9574-2798a13d8990
+		summarizeBy: sum
+		sourceColumn: line_total
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_sales = m
+		mode: directQuery
+		source =
+				let
+				    Source = PostgreSQL.Database(PgServer, PgDatabase),
+				    Data = Source{[Schema="pbi",Item="fact_sales"]}[Data]
+				in
+				    Data
+
+	annotation PBI_ResultType = Table

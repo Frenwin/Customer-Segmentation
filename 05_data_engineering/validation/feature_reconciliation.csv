@@ -1,0 +1,15 @@
+feature,max_abs_diff,mismatches
+recency_days,0.0,0
+frequency,0.0,0
+monetary,0.0,0
+avg_order_value,0.010000000000104592,0
+tenure_days,0.0,0
+avg_items_per_order,0.0004444444444444695,0
+n_categories,0.0,0
+avg_installments,0.0003333333333337407,0
+voucher_order_share,4.285714285715003e-05,0
+credit_card_order_share,3.333333333332966e-05,0
+avg_review_score,0.0003333333333332966,0
+late_delivery_share,4.285714285715003e-05,0
+avg_delivery_days,0.005000000000002558,0
+freight_ratio,5.0000000000050004e-05,0

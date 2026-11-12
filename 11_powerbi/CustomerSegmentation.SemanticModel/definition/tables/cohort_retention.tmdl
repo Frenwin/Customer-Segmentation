@@ -1,0 +1,94 @@
+table cohort_retention
+	lineageTag: f413e9ca-0d96-58d7-89f2-a6d38ccdbef0
+
+	measure 'Cohort Retention' = DIVIDE(SUM('cohort_retention'[active_customers]), SUM('cohort_retention'[cohort_size]))
+		formatString: 0.00%
+		lineageTag: caaa847f-22b5-5980-b670-695e20443549
+
+	measure 'Cohort Cell Color' = VAR v = [Cohort Retention] RETURN SWITCH(TRUE(), ISBLANK(v), "#ffffff", v >= 0.006, "#26408F", v >= 0.004, "#4D6BC6", v >= 0.0025, "#8DA2E0", v >= 0.0012, "#C7D2F0", v > 0, "#EEF1FA", "#ffffff")
+		lineageTag: ceea2535-3b8b-5839-bffe-50ed2581772f
+
+	measure 'Cohort Text Color' = IF([Cohort Retention] >= 0.004, "#ffffff", "#1B2233")
+		lineageTag: 573b3691-f34f-5a00-b683-4cfd8e1c3a9d
+
+	column cohort
+		dataType: string
+		lineageTag: 58a19171-8d82-51ba-960d-e8ca85d678c0
+		summarizeBy: none
+		sourceColumn: cohort
+
+		annotation SummarizationSetBy = Automatic
+
+	column cohort_month
+		dataType: dateTime
+		formatString: mmm yy
+		lineageTag: 025f756b-3012-5804-8b46-be11e6085f6c
+		summarizeBy: none
+		sourceColumn: cohort_month
+
+		annotation SummarizationSetBy = Automatic
+
+	column month_index
+		dataType: int64
+		formatString: #,0
+		lineageTag: 8f7f9085-3dda-5c62-8459-3146bdebe8a6
+		summarizeBy: none
+		sourceColumn: month_index
+
+		annotation SummarizationSetBy = Automatic
+
+	column cohort_size
+		dataType: int64
+		formatString: #,0
+		lineageTag: 27e9d0c9-4ab3-55e8-aea8-ad609d3261e9
+		summarizeBy: sum
+		sourceColumn: cohort_size
+
+		annotation SummarizationSetBy = Automatic
+
+	column active_customers
+		dataType: int64
+		formatString: #,0
+		lineageTag: e3d68879-c308-5d81-94bd-7aafc38e5a2d
+		summarizeBy: sum
+		sourceColumn: active_customers
+
+		annotation SummarizationSetBy = Automatic
+
+	column retention_rate
+		dataType: double
+		formatString: 0.0%
+		lineageTag: 68e10f75-cc13-5528-b02a-6eb678e0a279
+		summarizeBy: sum
+		sourceColumn: retention_rate
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: 3490605a-5341-5845-9574-3367306e9cc1
+		summarizeBy: sum
+		sourceColumn: revenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: 6741abcb-a5c2-5f20-b937-1366afac7aac
+		summarizeBy: sum
+		sourceColumn: orders
+
+		annotation SummarizationSetBy = Automatic
+
+	partition cohort_retention = m
+		mode: directQuery
+		source =
+				let
+				    Source = PostgreSQL.Database(PgServer, PgDatabase),
+				    Data = Source{[Schema="pbi",Item="cohort_retention"]}[Data]
+				in
+				    Data
+
+	annotation PBI_ResultType = Table

@@ -1,0 +1,25 @@
+{
+  "repeat_purchase_rate": 0.02995574841037979,
+  "pooled_period_retention": 0.009175928435890485,
+  "pooled_reactivation_rate": 0.005734658393019509,
+  "avg_month1_cohort_retention": 0.004755789473684211,
+  "churn_rate_snapshot": 0.37417296786389415,
+  "historical_churn_rate": 0.9615753000169024,
+  "basket": {
+    "order": {
+      "baskets": 96211,
+      "multi_category_baskets": 778,
+      "multi_category_share": 0.008086393447734666,
+      "rules": 2
+    },
+    "customer": {
+      "baskets": 93104,
+      "multi_category_baskets": 2260,
+      "multi_category_share": 0.02427393022856161,
+      "rules": 4
+    }
+  },
+  "delivery_vs_review_spearman": -0.48168498168498164,
+  "peak_month": "2017-11",
+  "jan_aug_revenue_growth_yoy": 1.4335826049611442
+}

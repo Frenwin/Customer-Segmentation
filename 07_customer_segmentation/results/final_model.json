@@ -1,0 +1,18 @@
+{
+  "winner": "E2-rfm-log-standard-kmeans-k4",
+  "segments": {
+    "S1": "At Risk",
+    "S2": "Hibernating",
+    "S3": "New Customers",
+    "S4": "Loyal Customers"
+  },
+  "colors": {
+    "At Risk": "#D9653B",
+    "Hibernating": "#C266C0",
+    "New Customers": "#139C85",
+    "Loyal Customers": "#3558D4"
+  },
+  "churn_threshold_days": 278,
+  "snapshot_prev": "2018-03-01",
+  "analysis_date": "2018-09-01"
+}

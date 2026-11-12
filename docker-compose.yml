@@ -1,0 +1,21 @@
+# docker compose up -d db   -> PostgreSQL 16 (raw / staging / dw / mart schemas are created by the pipeline)
+# Port 5435 on the host: 5433 and 5434 are already used by other local projects.
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: custseg-db
+    environment:
+      POSTGRES_USER: custseg
+      POSTGRES_PASSWORD: custseg
+      POSTGRES_DB: custsegdb
+    ports:
+      - "5435:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U custseg -d custsegdb"]
+      interval: 3s
+      retries: 20
+
+volumes:
+  pgdata:

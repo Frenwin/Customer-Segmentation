@@ -1,0 +1,47 @@
+table category_by_segment
+	lineageTag: a5ea0138-90bc-56ba-a495-4ffb531d691b
+
+	column segment_name
+		dataType: string
+		lineageTag: d63390ff-fdfe-5e2a-9b88-8beb0286cacc
+		summarizeBy: none
+		sourceColumn: segment_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column category_group
+		dataType: string
+		lineageTag: 036b636b-f03a-5066-9d20-f09788fbd0c7
+		summarizeBy: none
+		sourceColumn: category_group
+
+		annotation SummarizationSetBy = Automatic
+
+	column orders
+		dataType: int64
+		formatString: #,0
+		lineageTag: f7a137c5-a34a-573b-9619-520d5c2bcaf7
+		summarizeBy: sum
+		sourceColumn: orders
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenue
+		dataType: double
+		formatString: "Rp" #,0
+		lineageTag: 6ab49e07-eaf2-57ba-9c59-4bfab7a88098
+		summarizeBy: sum
+		sourceColumn: revenue
+
+		annotation SummarizationSetBy = Automatic
+
+	partition category_by_segment = m
+		mode: directQuery
+		source =
+				let
+				    Source = PostgreSQL.Database(PgServer, PgDatabase),
+				    Data = Source{[Schema="pbi",Item="category_by_segment"]}[Data]
+				in
+				    Data
+
+	annotation PBI_ResultType = Table

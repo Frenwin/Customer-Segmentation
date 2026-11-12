@@ -1,0 +1,27 @@
+check_id,prd_rule,layer,description,severity,tolerance,handling,violations,total,violation_share,status
+DQ01,Customer ID,raw,customer_id is null/empty,error,0.0,rows would be rejected in staging,0,99441,0.0,PASS
+DQ02,Customer ID,raw,customer_unique_id is null/empty,error,0.0,rows would be rejected in staging,0,99441,0.0,PASS
+DQ03,Transaction ID,raw,duplicated order_id in orders,error,0.0,DISTINCT ON (order_id) in staging,0,99441,0.0,PASS
+DQ04,Transaction ID,raw,"duplicated (order_id, order_item_id) line",error,0.0,DISTINCT ON in staging,0,112650,0.0,PASS
+DQ05,Transaction Date,staging,purchase timestamp missing / unparseable,error,0.0,cast fails loudly in staging; null -> dq_issue,0,99441,0.0,PASS
+DQ06,Transaction Date,staging,delivered before purchase (impossible lifecycle),warn,0.001,delivery_days set NULL in fact_orders; revenue kept,0,99441,0.0,PASS
+DQ07,Transaction Date,staging,approved before purchase,warn,0.001,flag only (approval time not used in analysis),0,99441,0.0,PASS
+DQ08,Transaction Date,staging,status 'delivered' without delivery date,warn,0.001,kept as revenue (status is authoritative); excluded from delivery-time metrics,8,96478,8.3e-05,PASS
+DQ09,Quantity,warehouse,quantity <= 0 on a sales line,error,0.0,Olist: 1 line = 1 unit,0,112650,0.0,PASS
+DQ10,Unit Price,staging,negative or zero item price,error,0.0,would be rejected,0,112650,0.0,PASS
+DQ11,Unit Price,staging,negative freight value,error,0.0,would be rejected,0,112650,0.0,PASS
+DQ12,Transaction Amount,warehouse,line_total <> quantity*unit_price + freight - discount,error,0.0,-,0,112650,0.0,PASS
+DQ13,Transaction Amount,warehouse,|payment_value - (items + freight)| > R$1 on revenue orders,warn,0.01,installment interest / vouchers; revenue measured as items + freight (line level),241,96211,0.002505,PASS
+DQ14,Customer Relationship,staging,order references unknown customer_id,error,0.0,-,0,99441,0.0,PASS
+DQ15,Customer Relationship,staging,order item references unknown order / product,error,0.0,-,0,112650,0.0,PASS
+DQ16,Customer Relationship,warehouse,fact_sales customer_key missing in dim_customer,error,0.0,-,0,112650,0.0,PASS
+DQ17,Order Status,staging,order status outside the known set,error,0.0,-,0,99441,0.0,PASS
+DQ18,Order Status,staging,orders not recognised as revenue (in-flight / cancelled),info,1.0,is_revenue = false (cancelled -> fact_cancellations),2963,99441,0.029797,INFO
+DQ19,Order Status,staging,revenue order without any item line,error,0.0,-,0,96478,0.0,PASS
+DQ20,Duplicate Records,raw,duplicated review_id in reviews,warn,0.02,one review per order kept (latest answer),814,99224,0.008204,PASS
+DQ21,Duplicate Records,raw,orders with more than one review,warn,0.02,latest answer kept,551,99224,0.005553,PASS
+DQ22,Duplicate Records,raw,duplicated geolocation rows per zip prefix,info,1.0,median lat/lng per zip prefix,981148,1000163,0.980988,INFO
+DQ23,Valid values,raw,geolocation outside Brazil bounding box,warn,0.001,excluded before aggregation,42,1000163,4.2e-05,PASS
+DQ24,Valid values,staging,product without category,warn,0.03,"category = 'uncategorized', group = 'Other'",610,32951,0.018512,PASS
+DQ25,Customer Relationship,raw,repeat persons: customer_unique_id with >1 customer_id,info,1.0,customer grain = customer_unique_id (dim_customer),3345,99441,0.033638,INFO
+DQ26,Reconciliation,mart,revenue fact_sales vs fact_orders vs mart.customer_rfm (R$ diff),error,0.5,-,0,1,0.0,PASS

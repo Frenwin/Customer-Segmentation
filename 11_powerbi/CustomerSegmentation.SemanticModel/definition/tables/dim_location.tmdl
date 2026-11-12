@@ -1,0 +1,75 @@
+table dim_location
+	lineageTag: 87f1c5e4-26be-5793-a684-cedef694189b
+
+	column location_key
+		dataType: int64
+		formatString: #,0
+		isHidden
+		lineageTag: 02bd606f-3551-5846-ad0c-b8f49e5120d8
+		summarizeBy: none
+		sourceColumn: location_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column city
+		dataType: string
+		dataCategory: City
+		lineageTag: 3f1b192b-fcde-5871-a6f5-0f91b6663832
+		summarizeBy: none
+		sourceColumn: city
+
+		annotation SummarizationSetBy = Automatic
+
+	column state
+		dataType: string
+		dataCategory: StateOrProvince
+		lineageTag: 31fd771c-7d1a-543f-a3c1-e638c4bfd8f0
+		summarizeBy: none
+		sourceColumn: state
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		lineageTag: 7b2e3f42-bdf5-5662-8474-45c8d3b3286e
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column geo_label
+		dataType: string
+		lineageTag: 807489ff-4b9d-5090-95b7-6b4de4c843ca
+		summarizeBy: none
+		sourceColumn: geo_label
+
+		annotation SummarizationSetBy = Automatic
+
+	column lat
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 3063d55f-da4d-560a-83ee-c0f71a34d83e
+		summarizeBy: sum
+		sourceColumn: lat
+
+		annotation SummarizationSetBy = Automatic
+
+	column lng
+		dataType: double
+		formatString: #,0.00
+		lineageTag: f3045d03-ba58-57a4-a942-8d01dd2d3434
+		summarizeBy: sum
+		sourceColumn: lng
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_location = m
+		mode: directQuery
+		source =
+				let
+				    Source = PostgreSQL.Database(PgServer, PgDatabase),
+				    Data = Source{[Schema="pbi",Item="dim_location"]}[Data]
+				in
+				    Data
+
+	annotation PBI_ResultType = Table

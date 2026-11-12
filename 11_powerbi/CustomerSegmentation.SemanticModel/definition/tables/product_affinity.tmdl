@@ -1,0 +1,100 @@
+table product_affinity
+	lineageTag: 34d0b783-bc55-5f98-80e3-9863975aa497
+
+	column level
+		dataType: string
+		lineageTag: 1bfe54f9-b4a5-5bba-9ebe-87a625b68bb5
+		summarizeBy: none
+		sourceColumn: level
+
+		annotation SummarizationSetBy = Automatic
+
+	column antecedent
+		dataType: string
+		lineageTag: 854e4bc8-11e4-59c0-9b9e-f0ce5abd7543
+		summarizeBy: none
+		sourceColumn: antecedent
+
+		annotation SummarizationSetBy = Automatic
+
+	column consequent
+		dataType: string
+		lineageTag: e54eb617-c59f-5f18-b8dc-6a148fce31e5
+		summarizeBy: none
+		sourceColumn: consequent
+
+		annotation SummarizationSetBy = Automatic
+
+	column itemset_size
+		dataType: int64
+		formatString: #,0
+		lineageTag: cf6421eb-cd30-5f7c-b2e8-6abcdb5da61c
+		summarizeBy: sum
+		sourceColumn: itemset_size
+
+		annotation SummarizationSetBy = Automatic
+
+	column support_count
+		dataType: int64
+		formatString: #,0
+		lineageTag: b82795bc-d0f3-5a6d-b7f0-7cb612048be0
+		summarizeBy: sum
+		sourceColumn: support_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column support
+		dataType: double
+		formatString: 0.0%
+		lineageTag: f7bc5cfe-9d38-551e-9923-28c06f8f18d1
+		summarizeBy: sum
+		sourceColumn: support
+
+		annotation SummarizationSetBy = Automatic
+
+	column confidence
+		dataType: double
+		formatString: 0.0%
+		lineageTag: ced600a3-368a-5c67-94af-53bd41fe628e
+		summarizeBy: sum
+		sourceColumn: confidence
+
+		annotation SummarizationSetBy = Automatic
+
+	column lift
+		dataType: double
+		formatString: #,0.00
+		lineageTag: f19f2a9e-a360-53f4-aeed-92b102f20a4b
+		summarizeBy: sum
+		sourceColumn: lift
+
+		annotation SummarizationSetBy = Automatic
+
+	column antecedent_count
+		dataType: int64
+		formatString: #,0
+		lineageTag: 385dfe1f-fd8c-5b05-98b6-2373a1f2667d
+		summarizeBy: sum
+		sourceColumn: antecedent_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column consequent_count
+		dataType: int64
+		formatString: #,0
+		lineageTag: 0a2a6c8a-3620-5e84-be6c-a4560b6b96a3
+		summarizeBy: sum
+		sourceColumn: consequent_count
+
+		annotation SummarizationSetBy = Automatic
+
+	partition product_affinity = m
+		mode: directQuery
+		source =
+				let
+				    Source = PostgreSQL.Database(PgServer, PgDatabase),
+				    Data = Source{[Schema="pbi",Item="product_affinity"]}[Data]
+				in
+				    Data
+
+	annotation PBI_ResultType = Table
